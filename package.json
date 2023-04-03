@@ -1,0 +1,319 @@
+{
+    "name": "veracode",
+    "displayName": "Veracode Unified Plugin - Unofficial Version",
+    "description": "A plugin to incorporate Static and SCA findings from Veracode Application Profiles",
+    "version": "0.4.0",
+    "publisher": "JulianTotzek-Hallhuber",
+    "engines": {
+        "vscode": "^1.65.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Lerer/VSCode-Veracode-Unified"
+    },
+    "bugs": {
+        "url": "https://github.com/Lerer/VSCode-Veracode-Unified/issues",
+        "email": "jtotzekhallhuber@veracode.com"
+    },
+    "license": "MIT",
+    "categories": [
+        "Other"
+    ],
+    "icon": "media/01-carpet.png",
+    "galleryBanner": {
+        "color": "#00B4E6",
+        "theme": "dark"
+    },
+    "activationEvents": [
+        "onCommand:veracodeUnifiedExplorer.refresh",
+        "onView:veracodeUnifiedExplorer",
+        "onCommand:veracodeUnifiedExplorer.scanFileWithPipeline"
+    ],
+    "main": "./out/extension",
+    "contributes": {
+        "viewsWelcome": [
+            {
+                "view": "veracodeUnifiedExplorer",
+                "contents": "Welcome to Veracode Extension. [learn more](https://marketplace.visualstudio.com/items?itemName=YaakovLerer.veracode).\nThis welcome message should go away after few seconds. If you still see this message after 20 seconds, please update your `veracode-plugin.conf` file and try to refresh.\n[Refresh](command:veracodeUnifiedExplorer.refresh)\nAlternatively, please check the README for troubleshooting information in the Extension repository [README](https://github.com/Lerer/VSCode-Veracode-Unified/blob/master/README.md) documentation."
+            }
+        ],
+        "configuration": {
+            "type": "object",
+            "title": "Veracode",
+            "properties": {
+                "veracode.API profile in configuration file": {
+                    "$id": "securityProfile",
+                    "type": "string",
+                    "default": "default",
+                    "markdownDescription": "The profile (or section) of API credentials to be used for communicating with Veracode Platform.",
+                    "scope": "application"
+                },
+                "veracode.credsFile": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specifies the absolute filepath for the API Credentials"
+                },
+                "veracode.flawsCount": {
+                    "type": "number",
+                    "default": 200,
+                    "description": "Number of issues to pull from the veracode platform (20-300)"
+                },
+                "veracode.logLevel": {
+                    "type": [
+                        "string",
+                        "null"
+                    ],
+                    "default": "info",
+                    "description": "Logging level (changes need a restart to take effect)",
+                    "enum": [
+                        "trace",
+                        "debug",
+                        "info",
+                        "warning",
+                        "error",
+                        "silent"
+                    ]
+                },
+                "veracode.proxyHost": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specifies the name of the proxy server (e.g., https://company-proxy.com)"
+                },
+                "veracode.proxyPort": {
+                    "type": "string",
+                    "default": "0",
+                    "description": "Specifies the port number on the proxy server (e.g., 8080)"
+                },
+                "veracode.proxyName": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specifies the login name on the proxy server"
+                },
+                "veracode.proxyPassword": {
+                    "type": "string",
+                    "default": "",
+                    "description": "Specifies the login password on the proxy server"
+                },
+                "veracode.sandboxCount": {
+                    "type": "number",
+                    "default": 5,
+                    "description": "Specifies the maximum number of sandboxes to show for each application (1-25)"
+                },
+                "veracode.pipelineScanResultsFilename": {
+                    "type": "string",
+                    "default": "veracode-pipeline-scan-results.json",
+                    "description": "Veracode Pipeline Scan results file name"
+                },
+                "veracode.pipelineScanResultsDisplayStyle": {
+                    "enum": [
+                        "simple",
+                        "simple in style",
+                        "detailed",
+                        "detailed in style"
+                    ],
+                    "type": "string",
+                    "default": "simple in style",
+                    "description": "Veracode Pipeline Scan output format"
+                }
+            }
+        },
+        "views": {
+            "explorer": [
+                {
+                    "id": "veracodeUnifiedExplorer",
+                    "name": "Veracode"
+                }
+            ]
+        },
+        "commands": [
+            {
+                "command": "veracodeUnifiedExplorer.refresh",
+                "title": "Refresh",
+                "category": "Veracode",
+                "icon": {
+                    "light": "resources/light/refresh.svg",
+                    "dark": "resources/dark/refresh.svg"
+                }
+            },
+            {
+                "command": "veracodeUnifiedExplorer.sortSeverity",
+                "title": "Group by Severity",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.sortCwe",
+                "title": "Group by CWE",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.sortFlawCategory",
+                "title": "Group by Flaw Category",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.filterFlawIncMitigated",
+                "title": "Include mitigated",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.filterFlawExcMitigated",
+                "title": "Exclude mitigated",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.filterFlawIncNoneEffectPolicy",
+                "title": "Include not Effect policy",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.filterFlawOnlyEffectPolicy",
+                "title": "Effect Policy Only",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.proposeMitigation",
+                "title": "Annotations",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.SCAReport",
+                "title": "Show related SCA findings",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.summaryReport",
+                "title": "Show Summary report",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.scanFileWithPipeline",
+                "title": "Scan with Veracode Pipeline Scan",
+                "when": "false"
+            },
+            {
+                "command": "veracodeUnifiedExplorer.visualizePipelineScanFromJson",
+                "title": "Display Veracode Pipeline Scan results",
+                "category": "Veracode"
+            },
+            {
+                "command": "veracodeAPISecurity.submitSpecification",
+                "title": "Submit API Specification file (Swagger/HAR) to veracode platform",
+                "category": "Veracode",
+                "shortTitle": "Upload API Specification"
+            }
+        ],
+        "menus": {
+            "view/title": [
+                {
+                    "command": "veracodeUnifiedExplorer.refresh",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "navigation"
+                }
+            ],
+            "view/item/context": [
+                {
+                    "command": "veracodeUnifiedExplorer.sortSeverity",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "navigation@1"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.sortCwe",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "navigation@2"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.sortFlawCategory",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "navigation@3"
+                },
+                {
+                    "submenu": "filter.submenu",
+                    "group": "filter@0"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.proposeMitigation",
+                    "when": "view == veracodeUnifiedExplorer && viewItem == flaw",
+                    "group": "mitigations"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.SCAReport",
+                    "when": "view == veracodeUnifiedExplorer && viewItem == sandbox",
+                    "group": "reports@1"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.summaryReport",
+                    "when": "view == veracodeUnifiedExplorer && viewItem == sandbox",
+                    "group": "reports@10"
+                }
+            ],
+            "filter.submenu": [
+                {
+                    "command": "veracodeUnifiedExplorer.filterFlawIncMitigated",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "filter@1"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.filterFlawExcMitigated",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "filter@2"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.filterFlawIncNoneEffectPolicy",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "filter@3"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.filterFlawOnlyEffectPolicy",
+                    "when": "view == veracodeUnifiedExplorer",
+                    "group": "filter@4"
+                }
+            ],
+            "explorer/context": [
+                {
+                    "command": "veracodeUnifiedExplorer.scanFileWithPipeline",
+                    "group": "8_veracode",
+                    "when": "resourceExtname == .jar || resourceExtname == .war || resourceExtname == .ear || resourceExtname == .zip || resourceExtname == .apk || resourceExtname == .jsp || resourceExtname == .ts || resourceExtname == .js || resourceExtname == .es6 || resourceExtname == .jsx || resourceExtname == .tsx || resourceExtname == .json || resourceExtname == .map || resourceExtname == .php || resourceExtname == .vue || resourceExtname == .html || resourceExtname == .xhtml || resourceExtname == .php4 || resourceExtname == .php5 || resourceExtname == .php7 || resourceExtname == .phtml || resourceExtname == .sql || resourceExtname == .pl || resourceExtname == .go  || resourceExtname == .dll  || resourceExtname == .class || resourceExtname == .py || resourceExtname == .es || resourceExtname == .asp || resourceExtname == .css || resourceExtname == .ehtml || resourceExtname == .handlebars || resourceExtname == .hbs || resourceExtname == .hjs || resourceExtname == .htm || resourceExtname == .mustach || resourceExtname == .pm || resourceExtname == .plx || resourceExtname == .pl5 || resourceExtname == .cgi || resourceExtname == .fnc || resourceExtname == .pck || resourceExtname == .pkb || resourceExtname == .pks || resourceExtname == .pls || resourceExtname == .prc || resourceExtname == .sql || resourceExtname == .tpb || resourceExtname == .tps || resourceExtname == .trg || resourceExtname == .vw"
+                },
+                {
+                    "command": "veracodeUnifiedExplorer.visualizePipelineScanFromJson",
+                    "group": "8_veracode",
+                    "when": "resourceFilename in veracode.pipelineScanResultsFilenameMenu"
+                }
+            ]
+        },
+        "submenus": [
+            {
+                "id": "filter.submenu",
+                "label": "Filters"
+            }
+        ]
+    },
+    "scripts": {
+        "vscode:prepublish": "tsc -p ./",
+        "watch": "tsc -watch -p ./",
+        "test": "npm run compile && node ./out/test/runTest.js",
+        "test-dast-api": "tsc && node ./out/test/dastApiTest.js"
+    },
+    "devDependencies": {
+        "@types/adm-zip": "^0.5.0",
+        "@types/node": "^14.6.0",
+        "@types/uuid": "^9.0.1",
+        "esbuild": "^0.17.14",
+        "typescript": "^4.5.5",
+        "vscode-test": "^1.6.1"
+    },
+    "dependencies": {
+        "@types/glob": "^7.1.4",
+        "@types/html-to-text": "^8.0.1",
+        "@types/vscode": "^1.60.0",
+        "adm-zip": "^0.5.10",
+        "axios": "^0.25.0",
+        "dotenv": "^14.3.2",
+        "form-data": "^4.0.0",
+        "glob": "^7.1.6",
+        "html-to-text": "^8.0.0",
+        "jszip": "^3.10.1",
+        "loglevel": "^1.6.8",
+        "uuid": "^9.0.0"
+    }
+}
