@@ -1,4 +1,4 @@
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Lerer_VSCode-Veracode-Unified&metric=alert_status)](https://sonarcloud.io/dashboard?id=Lerer_VSCode-Veracode-Unified) [![GitHub](https://img.shields.io/github/license/lerer/VSCode-Veracode-Unified?style=flat-squere)](https://github.com/julz0815/veracode-vscode-plugin/blob/master/LICENSE.md) [![Maintained by Yaakov Lerer](https://img.shields.io/badge/maintained%20by-julz0815-brightgreen)](http://www.github.com/julz0815) [![GitHub issues](https://img.shields.io/github/issues/lerer/VSCode-Veracode-Unified/enhancement?color=9cf)](https://github.com/julz0815/veracode-vscode-plugin/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement) [![GitHub issues](https://img.shields.io/github/issues/lerer/VSCode-Veracode-Unified/bug?color=red)](https://github.com/julz0815/veracode-vscode-plugin/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Lerer_VSCode-Veracode-Unified&metric=alert_status)](https://sonarcloud.io/dashboard?id=Lerer_VSCode-Veracode-Unified) [![GitHub](https://img.shields.io/github/license/lerer/VSCode-Veracode-Unified?style=flat-squere)](https://github.com/julz0815/veracode-vscode-plugin/blob/master/LICENSE.md) [![Maintained by Yaakov Lerer](https://img.shields.io/badge/maintained%20by-julz0815-brightgreen)](http://www.github.com/julz0815) [![GitHub issues](https://img.shields.io/github/issues/julz0815/veracode-vscode-plugin/enhancement?color=9cf)](https://github.com/julz0815/veracode-vscode-plugin/issues?q=is%3Aopen+is%3Aissue+label%3Aenhancement) [![GitHub issues](https://img.shields.io/github/issues/lerer/VSCode-Veracode-Unified/bug?color=red)](https://github.com/julz0815/veracode-vscode-plugin/issues?q=is%3Aopen+is%3Aissue+label%3Abug)
 
 # About
 
@@ -167,7 +167,7 @@ Please log an issue.
 While it's true that I work at [Veracode](https://www.veracode.com/) at the time of writing this plugin - this is not an official supported plugin by Veracode.
 
 # Credit
-the real created of this plugin form where I took it over - [Coby Lerer]().
+The real creator of this plugin form where I took it over - [Coby Lerer](https://github.com/lerer).
 The initial code base of this plugin was created by a colleague of mine - [Kevin Rise](https://gitlab.com/buzzcode).      
 Few features added using code written by another colleague - [Chris Campbell](https://github.com/ctcampbell)
 
