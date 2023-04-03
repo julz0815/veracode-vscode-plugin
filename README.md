@@ -86,7 +86,7 @@ __Note:__ The selected grouping and the filtering you can view at the IDE status
 # Pipeline Scan 
 Additional menu option was added in VSCode project (files) explorer for files with the following extensions to run pipeline scan: JAR, WAR, EAR, ZIP, APK, DLL. It also supports single file scanning for following file extensions. 
 .ts . js .jsp .es6 .jsx .tsx .json .map .php .vue .html .xhtml .php4 .php5 .php7 .phtml .sql .pl .go .class .py .es .asp .css .ehtml .handlebars .hbs .hjs .htm .mustach .pm .plx .pl5 .cgi .fnc .pck .pkb .pks .pls .prc .sql .tpb .tps .trg .vw  
-Please be aware that single file scanning will yiedl fewer results compared to scan the full application.  
+Please be aware that single file scanning will yield fewer results compared to scan the full application.  
 <p align=center>
 <img src="media/pipeline_scan_menu_item.png" width="40%">
 </p>
