@@ -9,3 +9,5 @@ tsconfig.json
 vsc-extension-quickstart.md
 releases/**
 veracode-plugin.conf
+*.vsix
+*.vsix-copy
